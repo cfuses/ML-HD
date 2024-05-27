@@ -2,7 +2,7 @@
 
 Age of onset of Huntington's disease is currently being predicted by using the CAG trinucleotide expansion as the main predictor, but it does not explain the entire variability of the phenotype. The present study explores the potential of machine learning algorithms trained with a broader set of genetic data to improve the modeling of this remaining unexplained variance. The data used are single nucleotide polymorphisms genotypes from the Enroll-HD dataset.
 
-This repository contains 
+This repository contains the code generated throughout the project, explained below following the same `code` directory order, and a toy example (which can be found in `data/features`) to test the ML models scripts (inside `regression_models`). Any script which requires the original raw data, the SNP lookup table or the original list of genes included cannot be tested.
 
 ## Source code
 
