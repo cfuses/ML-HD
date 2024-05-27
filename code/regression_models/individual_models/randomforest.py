@@ -31,7 +31,7 @@ os.chdir('/gpfs/projects/bsc83/MN4/bsc83/Projects/Creatio/enroll_hd/')
 data_dir = "data/features/"
 
 # Input files
-X_path = data_dir + "feature_matrix_m3_filt_0.01_nodups.txt"
+X_path = data_dir + "feature_matrix_m3_filt_0.01.txt"
 y_path = data_dir + "aoo.txt"
 
 # Results directory
@@ -74,9 +74,9 @@ randomforest = ensemble.RandomForestRegressor(random_state=84, n_jobs=8)
 
 # Define the parameter grid to search
 param_grid = {
-    'ccp_alpha': [0.0005, 0.001, 0.005],
-    'max_depth': [4, 6, 8],
-    'n_estimators': [30,40]
+    'ccp_alpha': [0.001],
+    'max_depth': [4, 6],
+    'n_estimators': [10,30,40]
 }
 # Perform GridSearchCV with cross-validation
 randomforest_grid_search = model_selection.GridSearchCV(randomforest, param_grid, 

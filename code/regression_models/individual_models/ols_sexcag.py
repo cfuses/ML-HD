@@ -24,7 +24,7 @@ data_dir = "data/features/"
 # Input files
 # X_path = data_dir + "X_pc10_filt_0.01.txt"
 # y_path = data_dir + "y_pc10.txt"
-X_path = data_dir + "feature_matrix_m3_filt_0.01_nodups.txt"
+X_path = data_dir + "feature_matrix_m3_filt_0.01.txt"
 y_path = data_dir + "aoo.txt"
 
 # Results directory
