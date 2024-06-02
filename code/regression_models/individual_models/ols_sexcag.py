@@ -12,6 +12,13 @@ import pickle
 from evaluating_functions import model_description, model_metrics
 from data_loading import read_sparse_X, scale_CAG
 
+# Printing time for log recording
+from datetime import datetime
+def _print(*args, **kw):
+    print("[%s]" % (datetime.now()),*args, **kw)
+    
+_print("Start time")
+
 #--------# Directories #--------#
 
 # Change working directory
@@ -38,7 +45,7 @@ X = read_sparse_X(X_path, chunk_size = 100)
 # Load outcome vector
 y = np.loadtxt(y_path, delimiter='\t', usecols=[1], skiprows=1)
 
-print("Data loaded.")
+_print("Data loaded.")
 
 #--------# Scale CAG and AOO #--------#
 
@@ -69,8 +76,12 @@ y_test = np.ravel(y_test)
 # Define model
 ols = linear_model.LinearRegression()
 
+_print("Model fit start.")
+
 # Perform cross-validation with scoring metric
 cv_results = model_selection.cross_validate(ols, X_train_noSNPs, y_train, cv=5, scoring='r2', return_estimator=True)
+
+_print("Model fit end.")
 
 # Get the index of the fold with the best performance
 best_estimator_index = cv_results['test_score'].argmax()
@@ -81,8 +92,8 @@ best_estimator = cv_results['estimator'][best_estimator_index]
 # Train the final model using the best hyperparameter values
 ols_best = best_estimator.fit(X_train_noSNPs, y_train)
 
-print("Best trained estimator:", ols_best)
-print("Saving...")
+_print("Best trained estimator:", ols_best)
+_print("Saving...")
 
 # See how the model has trained
 evalplot = model_description(ols_best, X_train_noSNPs, y_train, scaler = aooScaler)
@@ -99,4 +110,4 @@ errorplot.savefig(results_dir + 'ols_sexcag_prediction.png')
 with open(results_dir + 'regressors/ols_sexcag.pkl', 'wb') as f:
     pickle.dump(ols_best, f)
     
-print("Results saved.")
+_print("Results saved.")

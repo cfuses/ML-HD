@@ -12,6 +12,13 @@ import pickle
 from evaluating_functions import model_description, model_metrics
 from data_loading import read_sparse_X, scale_CAG
 
+# Printing time for log recording
+from datetime import datetime
+def _print(*args, **kw):
+    print("[%s]" % (datetime.now()),*args, **kw)
+    
+_print("Start time")
+
 #--------# Directories #--------#
 
 # Change working directory
@@ -35,12 +42,12 @@ results_dir = "data/ml_results/"
 # Load X matrix
 X = read_sparse_X(X_path, chunk_size = 100)
 
-print("X loaded, taking", (X.dtype.itemsize * X.size)/1e6,'MB')
+_print("X loaded, taking", (X.dtype.itemsize * X.size)/1e6,'MB')
 
 # Load outcome vector
 y = np.loadtxt(y_path, delimiter='\t', usecols=[1], skiprows=1)
 
-print("Data loaded.")
+_print("Data loaded.")
 
 #--------# Scale CAG and AOO #--------#
 
@@ -79,8 +86,8 @@ lasso_grid_search.fit(X_train, y_train)
 # Extract best hyperparameter
 lasso_best = lasso_grid_search.best_estimator_
 
-print("Best trained estimator:", lasso_best)
-print("Saving...")
+_print("Best trained estimator:", lasso_best)
+_print("Saving...")
 
 # See how the model has trained
 evalplot = model_description(lasso_best, X_train, y_train, scaler = aooScaler)
@@ -97,4 +104,4 @@ errorplot.savefig(results_dir + 'lasso_prediction.png')
 with open(results_dir + 'regressors/lasso_regressor.pkl', 'wb') as f:
     pickle.dump(lasso_best, f)
     
-print("Results saved.")
+_print("Results saved.")
