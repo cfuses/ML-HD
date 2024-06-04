@@ -2,7 +2,7 @@
 
 Age of onset of Huntington's disease is currently being predicted by using the CAG trinucleotide expansion as the main predictor, but it does not explain the entire variability of the phenotype. The present study explores the potential of machine learning algorithms trained with a broader set of genetic data to improve the modeling of this remaining unexplained variance. The data used are single nucleotide polymorphisms genotypes from the Enroll-HD dataset.
 
-This repository contains the code generated throughout the project, explained below following the same `code` directory order, and a toy example (which can be found in `data/features`) to test the ML models scripts (inside `regression_models`). Any script which requires the original raw data, the SNP lookup table or the original list of genes included cannot be tested.
+This repository contains the code generated throughout the project, explained below following the same `code` directory order, and a toy example with a 1% subset of the real feature matrix (which can be found in `data/features`) to test the ML models scripts (inside `regression_models`). Any script which requires the original raw data, the SNP lookup table or the original list of genes included cannot be tested.
 
 ## Source code
 
@@ -21,13 +21,16 @@ This repository contains the code generated throughout the project, explained be
     - [alternative_prevalence_filtering_test.ipynb](#alternative_prevalence_filtering_testipynb)
     - [alternative_prevalence_colsuming.py](#alternative_prevalence_colsumingpy)
 - [regression_models](#regression_models)
-    - [ML_models.ipynb](#ml_modelsipynb)
     - [aoo_scaler.py](#aoo_scalerpy)
-    - [model_results.ipynb](#model_resultsipynb)
-    - [model_results_plots.ipynb](#model_results_plotsipynb)
     - [/individual_models](#individual_models)
         - [data_loading.py](#data_loadingpy)
         - [evaluating_functions.py](#evaluating_functionspy)
+    - [/results_visualization](#results_visualization)
+        - [data_balance.ipynb](#data_balanceipynb)
+        - [model_results.ipynb](#model_resultsipynb)
+        - [go_contributions.ipynb](#go_contributionsipynb)
+        - [manhattan_plots.ipynb](#manhattan_plotsipynb)
+        - [SNP_variant_over_AOvsCAG.ipynb](#snp_variant_over_aovscagipynb)
 
 ### vcf_generation
 
@@ -113,23 +116,9 @@ Input arguments to the file:
 
 ### regression_models
 
-#### ML_models.ipynb
-
-Training and testing of different ML regressions with the toy example. Contains feature scaling, train/test separation, balance study of the input data, and model evaluation functions.
-
 #### aoo_scaler.py
 
 Generates the standard scaler for AOO to be used in the models using all AOO values available, and pickles the scaler object to use it in other scripts.
-
-#### model_results.ipynb
-
-Extracts the SNPs contributing to the models. For the Lasso case, it takes the coefficients different from 0, retrieves the feature's SNP, gene and GO term, and assembles a table with the results.
-
-For the boosting methods, feature importance is sorted by gain (in XGBoost) and Gini index (in Random Forest Regressor), and a similar table to the lasso one is assembled and saved similarly.
-
-#### model_results_plots.ipynb
-
-Graphical representation of the results summarized by [model_results.ipynb](#model_results_plotsipynb), producing Manhattan plots which represent the importance of each SNP, having each SNP represented on its relative position inside the corresponding chromosome.
 
 #### /individual_models
 
@@ -152,4 +141,28 @@ Source script containing functions to visualize the training of a model (`model_
         
 Actual and predicted values are plotted transformed to their original range if the transformation scaler is passed as argument in both functions.
     
+#### /results_visualization
 
+#### data_balance.ipynb
+
+Check the data balance of the dataset regarding sex, AO and CAG repeat length distributions.
+
+#### model_results.ipynb
+
+Extracts the SNPs contributing to the models. For the Lasso case, it takes the coefficients different from 0, retrieves the feature's SNP, gene and GO term, and assembles a table with the results.
+
+For the boosting methods, feature importance is sorted by gain (in XGBoost) and Gini index (in Random Forest Regressor), and a similar table to the lasso one is assembled and saved similarly.
+
+#### go_contributions.ipynb
+
+Inspection of the intersection of SNPs accross models and from which GO terms are they. Generates a stacked bar plot representing the percentage of GO term usage in each model plus the background proportions (the proportions in the feature matrix). 
+
+It also contains the GO enrichment analysis performed with a two-sided Fisher test.
+
+#### manhattan_plots.ipynb
+
+Graphical representation of the results summarized by [model_results.ipynb](#model_results_plotsipynb), producing Manhattan plots which represent the importance of each SNP, having each SNP represented on its relative position inside the corresponding chromosome.
+
+#### SNP_variant_over_AOvsCAG.ipynb
+
+Generates the plots of AO vs CAG colored by the presence of an alternative allele in each sample, used to inspect the prevalence of a specific SNP variant in our dataset and see whether there is a tendency amongst the samples that carry it with regards to CAG length or age of onset.
